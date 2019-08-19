@@ -25,8 +25,6 @@ class ImgUpload:
             multiple=True
         )
 
-    def parse_contents(contents):
-        html.Img(src=contents),
 
 # import datetime
 

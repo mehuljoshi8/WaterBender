@@ -14,6 +14,7 @@ from geolocationmanager import GeolocationManager
 from weathermanager import WeatherManager
 import json
 from components import Components
+import plotly.plotly as py
 #Ending imports
 
 #starting varibles
@@ -23,7 +24,7 @@ app = dash.Dash(
 	server=server,
 	external_stylesheets=[dbc.themes.BOOTSTRAP],
 	routes_pathname_prefix="/dashboard/",
-	# suppress_callback_exceptions=True
+	suppress_callback_exceptions=True
 )
 
 comp = Components()
@@ -50,20 +51,7 @@ app.layout = html.Div([
 			width=3,
 			style={"padding-top": "10px"},
 		),
-		dbc.Col(
-			html.Div(
-				[
-					dcc.Graph(
-						id="live_graph",
-					),
-					dcc.Interval(
-						id="live_graph_interval",
-						interval = 60000,
-						n_intervals=0,
-					),	
-				]),
-			width=9,
-		),
+		dbc.Col(id="grapher", width=9)
 	])
 ])
 #end of layout
@@ -88,7 +76,7 @@ def update_time(n):
 
 #call back for the map url and geolocation data
 @app.callback(
-    Output("render_map", "children"),
+    [Output("render_map", "children"), Output("grapher", "children")],
     [Input('search_location_btn', 'n_clicks')],
     state=[State(component_id="Input", component_property="value")]
 )
@@ -102,9 +90,10 @@ def update_map_img(_, address):
 		geolocation_str = geoman.__str__()
 		geolocation_dict = eval(geoman.__str__())
 		latLng['lat'], latLng['lng'] = geolocation_dict['lat'], geolocation_dict['lng']
-		return html.Img(src=geolocation_dict['img_url'])
+		return html.Img(src=geolocation_dict['img_url'], style={"width": "100%"}), [
+							html.H6(address, style={"text-align": "center", "text-decoration":"underline"}), comp.Graph]
 	else:
-		return "Please enter a valid address"
+		return "Please enter a valid address", html.Div()
 
 #callback for the weatherman data
 @app.callback(Output("live_graph", "figure"),
@@ -114,16 +103,28 @@ def updateGraph(_):
 	global prev_data, data
 	print("in update graph")
 	print(latLng)
-	if latLng != {} and prev_data != latLng:
-		lat, lng = latLng['lat'], latLng['lng']
-		weatherman = WeatherManager(lat, lng)
-		weatherman_data = eval(weatherman.__str__())
-		data = weatherman_data['data']
-		print(data)
-		prev_data = {'lat': weatherman_data['lat'], 'lng': weatherman_data['lng']}
-	fig = go.Figure()
-	fig.add_trace(go.Scatter(x=data['time'], y=data['temperature'], fill='tozeroy'))
+	lat, lng = latLng['lat'], latLng['lng']
+	weatherman = WeatherManager(lat, lng)
+	weatherman_data = eval(weatherman.__str__())
+	data = weatherman_data['data']
+	print(data)
+	prev_data = {'lat': weatherman_data['lat'], 'lng': weatherman_data['lng']}
+	layout=go.Layout(
+		xaxis=dict(
+			title= 'Time (Hours)'
+		),
+		yaxis=dict(
+			title= 'Temperature (°F)'
+		)
+	)
+	fig = go.Figure(layout=layout)
+	fig.add_trace(go.Scatter(x=data['time'], y=data['temperature'], fill='tozeroy', name="Temperature"))
 	return fig
+
+@app.callback(Output('card-img', 'src'), [Input('upload-image', 'contents')])
+def updateImg(contents):
+	return "https://ichef.bbci.co.uk/news/976/cpsprodpb/10ECF/production/_107772396_treesmall.jpg" if contents == None else contents
+
 
 if __name__ == "__main__":
 	app.run_server(debug=False)

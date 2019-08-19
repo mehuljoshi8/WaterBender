@@ -1,6 +1,7 @@
 import dash_bootstrap_components as dbc
 import dash_html_components as html
 from imgUpload import ImgUpload
+import dash_core_components as dcc
 
 class Components:
 	def __init__(self):
@@ -33,6 +34,16 @@ class Components:
 		], style={"margin-bottom": 20}), self.imgUpload.uploads, self.location_input, 
 		html.P(id="output_da_input"), html.Div(id="render_map")
 		]
+
+
+		self.Graph = html.Div([
+						dcc.Graph(id="live_graph",),
+						dcc.Interval(
+							id="live_graph_interval",
+							interval = 3600000,
+							n_intervals=0,
+						),	
+					])
 
 
 
