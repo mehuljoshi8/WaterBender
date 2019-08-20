@@ -17,7 +17,7 @@ class GeolocationManager:
 
 	def __getGeoCodeData(self):
 		print(self.__address)
-		geolocation_key = "GkBHNyjVtgblJSKnoxTU4gIaJCWfZpEA"
+		geolocation_key = KEY
 		geolocation_url = "http://www.mapquestapi.com/geocoding/v1/address?key=" + geolocation_key + "&location=" + self.__address
 		r = requests.get(geolocation_url)
 		dict = r.json()
