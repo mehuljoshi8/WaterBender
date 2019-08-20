@@ -18,7 +18,7 @@ class WeatherManager:
 	#first get the data for the time at the time of creating the object then get the data hourly for the rest of the time
 	#also figure out how to store the data in a db so that even if the page reloads the user can still keep track of the temp
 	def __getWeatherData(self):
-		API_KEY = "36a1c99608bb942bf7de07606ca80f95"
+		API_KEY = Key
 		weather_url = "https://api.darksky.net/forecast/" + str(API_KEY) + "/" + str(self.__lat) + "," + str(self.__lng)
 		r = requests.get(weather_url)
 		dict = r.json()
