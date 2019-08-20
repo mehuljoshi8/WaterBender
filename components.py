@@ -46,6 +46,9 @@ class Components:
 					])
 
 
+		self.pi_control_on = html.Div(dbc.Button("Water On", color="primary", className="mr-1", id="pi_on"), id="water_on")
+		self.pi_control_off = html.Div(dbc.Button("Water off", color="danger", className="mr-1", id="pi_off"), id="water_off") 
+
 
 
 	

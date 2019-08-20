@@ -91,7 +91,7 @@ def update_map_img(_, address):
 		geolocation_dict = eval(geoman.__str__())
 		latLng['lat'], latLng['lng'] = geolocation_dict['lat'], geolocation_dict['lng']
 		return html.Img(src=geolocation_dict['img_url'], style={"width": "100%"}), [
-							html.H6(address, style={"text-align": "center", "text-decoration":"underline"}), comp.Graph]
+							html.H6(address, style={"text-align": "center", "text-decoration":"underline"}), comp.Graph, comp.pi_control_on, comp.pi_control_off]
 	else:
 		return "Please enter a valid address", html.Div()
 
@@ -124,6 +124,20 @@ def updateGraph(_):
 @app.callback(Output('card-img', 'src'), [Input('upload-image', 'contents')])
 def updateImg(contents):
 	return "https://ichef.bbci.co.uk/news/976/cpsprodpb/10ECF/production/_107772396_treesmall.jpg" if contents == None else contents
+
+@app.callback(Output("water_on", "children"), [Input('pi_on', "n_clicks")])
+def turnWaterOn(clicks):
+	print("Button1:",clicks)
+	if clicks == 2:
+		return "HELLO"
+	return dbc.Button("Water On", color="primary", className="mr-1", id="pi_on")
+
+@app.callback(Output("water_off", "children"), [Input("pi_off", "n_clicks")])
+def turnWaterOff(clicks):
+	print("button2:",clicks)
+	if clicks == 2:
+		return "World"
+	return dbc.Button("Water off", color="danger", className="mr-1", id="pi_off")
 
 
 if __name__ == "__main__":
