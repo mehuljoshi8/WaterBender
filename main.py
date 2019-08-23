@@ -12,9 +12,7 @@ import datetime
 import dash_html_components as html
 from geolocationmanager import GeolocationManager
 from weathermanager import WeatherManager
-import json
 from components import Components
-import plotly.plotly as py
 #Ending imports
 
 #starting varibles
@@ -31,6 +29,7 @@ comp = Components()
 data = {'time':[], 'temperature':[]}
 latLng = {}
 prev_data = {}
+default_plant_img = "https://ichef.bbci.co.uk/news/976/cpsprodpb/10ECF/production/_107772396_treesmall.jpg"
 #ending variables
 
 #basic layout for the dash app dashboard
@@ -91,40 +90,43 @@ def update_map_img(_, address):
 		geolocation_dict = eval(geoman.__str__())
 		latLng['lat'], latLng['lng'] = geolocation_dict['lat'], geolocation_dict['lng']
 		return html.Img(src=geolocation_dict['img_url'], style={"width": "100%"}), [
-							html.H6(address, style={"text-align": "center", "text-decoration":"underline"}), comp.Graph, comp.pi_control_on, comp.pi_control_off]
+							html.H6(address, style={"text-align": "center", "text-decoration":"underline"}), 
+							html.Div(id="tabs-features"),comp.graph]
 	else:
 		return "Please enter a valid address", html.Div()
 
 #callback for the weatherman data
-@app.callback(Output("live_graph", "figure"),
+@app.callback([Output("live_graph", "figure"), Output("tabs-features", 'children')],
 				[Input('live_graph_interval', 'n_intervals')]
 )
 def updateGraph(_):
 	global prev_data, data
-	print("in update graph")
-	print(latLng)
 	lat, lng = latLng['lat'], latLng['lng']
 	weatherman = WeatherManager(lat, lng)
 	weatherman_data = eval(weatherman.__str__())
 	data = weatherman_data['data']
-	print(data)
+	tabsFeature = comp.initializeTabsFeatures(data)
 	prev_data = {'lat': weatherman_data['lat'], 'lng': weatherman_data['lng']}
-	layout=go.Layout(
+	layout= getLayout("temperature")
+	fig = go.Figure(layout=layout)
+	fig.add_trace(go.Scatter(x=data['time'], y=data['temperature'], fill='tozeroy', name="Temperature"))
+	return [fig,tabsFeature]
+
+def getLayout(var):
+	go.Layout(
 		xaxis=dict(
 			title= 'Time (Hours)'
 		),
 		yaxis=dict(
-			title= 'Temperature (°F)'
+			title= var
 		)
 	)
-	fig = go.Figure(layout=layout)
-	fig.add_trace(go.Scatter(x=data['time'], y=data['temperature'], fill='tozeroy', name="Temperature"))
-	return fig
 
 @app.callback(Output('card-img', 'src'), [Input('upload-image', 'contents')])
 def updateImg(contents):
-	return "https://ichef.bbci.co.uk/news/976/cpsprodpb/10ECF/production/_107772396_treesmall.jpg" if contents == None else contents
+	return default_plant_img if contents == None else contents
 
+#alter this code once you get the pi back working
 @app.callback(Output("water_on", "children"), [Input('pi_on', "n_clicks")])
 def turnWaterOn(clicks):
 	print("Button1:",clicks)
@@ -139,6 +141,9 @@ def turnWaterOff(clicks):
 		return "World"
 	return dbc.Button("Water off", color="danger", className="mr-1", id="pi_off")
 
+#alteration for pi code ends here
+
+@app.callback()
 
 if __name__ == "__main__":
 	app.run_server(debug=False)
