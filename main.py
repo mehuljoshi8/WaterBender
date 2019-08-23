@@ -91,29 +91,31 @@ def update_map_img(_, address):
 		latLng['lat'], latLng['lng'] = geolocation_dict['lat'], geolocation_dict['lng']
 		return html.Img(src=geolocation_dict['img_url'], style={"width": "100%"}), [
 							html.H6(address, style={"text-align": "center", "text-decoration":"underline"}), 
-							html.Div(id="tabs-features"),comp.graph]
+							html.Div(id="tabs-features", children=comp.initializeTabsFeatures()),comp.graph]
 	else:
 		return "Please enter a valid address", html.Div()
 
 #callback for the weatherman data
-@app.callback([Output("live_graph", "figure"), Output("tabs-features", 'children')],
-				[Input('live_graph_interval', 'n_intervals')]
+@app.callback(Output("live_graph", "figure"),
+				[Input('live_graph_interval', 'interval'), Input("grapher-tabs", "active_tab")]
 )
-def updateGraph(_):
+def updateGraph(n, active_tab):
+	print(n)
+	active_tab= active_tab.split("-")[0]
 	global prev_data, data
 	lat, lng = latLng['lat'], latLng['lng']
 	weatherman = WeatherManager(lat, lng)
 	weatherman_data = eval(weatherman.__str__())
 	data = weatherman_data['data']
-	tabsFeature = comp.initializeTabsFeatures(data)
+	print(data)
 	prev_data = {'lat': weatherman_data['lat'], 'lng': weatherman_data['lng']}
-	layout= getLayout("temperature")
+	layout= getLayout(active_tab)
 	fig = go.Figure(layout=layout)
-	fig.add_trace(go.Scatter(x=data['time'], y=data['temperature'], fill='tozeroy', name="Temperature"))
-	return [fig,tabsFeature]
+	fig.add_trace(go.Scatter(x=data['time'], y=data[active_tab], fill='tozeroy', name="Temperature"))
+	return fig
 
 def getLayout(var):
-	go.Layout(
+	return go.Layout(
 		xaxis=dict(
 			title= 'Time (Hours)'
 		),
@@ -143,7 +145,6 @@ def turnWaterOff(clicks):
 
 #alteration for pi code ends here
 
-@app.callback()
 
 if __name__ == "__main__":
 	app.run_server(debug=False)

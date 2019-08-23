@@ -55,11 +55,17 @@ class Components:
 					])
 
 	#returns a dbc.Tabs element with the id of grapher-tabs
-	def initializeTabsFeatures(self, data):
-		tabs_list = []
-		for k in data.keys():
-			if len(data[k]) >= 20 and k != 'time':
-				tabs_list.append(dbc.Tab(label=k, tab_id="{}-tab".format(k)))
+	def initializeTabsFeatures(self):
+		tabs_list = [dbc.Tab(label='temperature', tab_id='temperature-tab'), 
+					dbc.Tab(label='apparentTemperature', tab_id='apparentTemperature-tab'), 
+					dbc.Tab(label='dewPoint', tab_id='dewPoint-tab'), 
+					dbc.Tab(label='humidity', tab_id='humidity-tab'), 
+					dbc.Tab(label='pressure', tab_id='pressure-tab'), 
+					dbc.Tab(label='windSpeed', tab_id='windSpeed-tab'), 
+					dbc.Tab(label='windGust', tab_id='windGust-tab'), 
+					dbc.Tab(label='windBearing', tab_id='windBearing-tab'), 
+					dbc.Tab(label='cloudCover', tab_id='cloudCover-tab'), 
+					dbc.Tab(label='ozone', tab_id='ozone-tab')]
 		return dbc.Tabs(tabs_list, id="grapher-tabs", active_tab="temperature-tab")
 
 
