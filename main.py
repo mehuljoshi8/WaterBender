@@ -129,19 +129,18 @@ def updateImg(contents):
 	return default_plant_img if contents == None else contents
 
 #alter this code once you get the pi back working
-@app.callback(Output("water_on", "children"), [Input('pi_on', "n_clicks")])
-def turnWaterOn(clicks):
-	print("Button1:",clicks)
-	if clicks == 2:
-		return "HELLO"
-	return dbc.Button("Water On", color="primary", className="mr-1", id="pi_on")
-
-@app.callback(Output("water_off", "children"), [Input("pi_off", "n_clicks")])
-def turnWaterOff(clicks):
-	print("button2:",clicks)
-	if clicks == 2:
-		return "World"
-	return dbc.Button("Water off", color="danger", className="mr-1", id="pi_off")
+@app.callback(Output("water_cont", "children"), [Input('pi', "n_clicks")])
+def turnWaterOn(_):
+	global water_button_counter
+	if water_button_counter % 2 == 0:
+		water_button_counter += 1
+		# Code to turn raspberry pi off with the solenoid config
+		pi.off()
+		return dbc.Button("Water On", color="primary", className="mr-1", id="pi")
+	water_button_counter += 1
+	#Code to turn the water counter on with the soleniod config
+	pi.on()
+	return dbc.Button("Water Off", color="danger", className="mr-1", id="pi")
 
 #alteration for pi code ends here
 
