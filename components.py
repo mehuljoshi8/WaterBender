@@ -10,8 +10,8 @@ class Components:
 		self.imgUpload = ImgUpload()
 		self.plantCard = self.__initializePlantCard()
 		self.graph = self.__initializeGrapher()
-		self.pi_control_on = html.Div(dbc.Button("Water On", color="primary", className="mr-1", id="pi_on"), id="water_on")
-		self.pi_control_off = html.Div(dbc.Button("Water off", color="danger", className="mr-1", id="pi_off"), id="water_off") 
+		self.water_control = html.Div(dbc.Button("Water On", color="primary", className="mr-1", id="pi"), 
+								id="water_cont", style={"text-align": "center", "margin": "5%"}) 
 
 	def __initializeNavBar(self):
 		return dbc.NavbarSimple(
@@ -62,10 +62,7 @@ class Components:
 					dbc.Tab(label='humidity', tab_id='humidity-tab'), 
 					dbc.Tab(label='pressure', tab_id='pressure-tab'), 
 					dbc.Tab(label='windSpeed', tab_id='windSpeed-tab'), 
-					dbc.Tab(label='windGust', tab_id='windGust-tab'), 
-					dbc.Tab(label='windBearing', tab_id='windBearing-tab'), 
-					dbc.Tab(label='cloudCover', tab_id='cloudCover-tab'), 
 					dbc.Tab(label='ozone', tab_id='ozone-tab')]
-		return dbc.Tabs(tabs_list, id="grapher-tabs", active_tab="temperature-tab")
+		return dbc.Tabs(tabs_list, id="grapher-tabs", active_tab="temperature-tab", style={"text-align": "center"})
 
 
