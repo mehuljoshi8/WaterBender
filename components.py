@@ -16,7 +16,7 @@ class Components:
 	def __initializeNavBar(self):
 		return dbc.NavbarSimple(
 			[dbc.NavItem(dbc.NavLink("Create Login", href="/dashboard/")),],
-			brand="Smart Watering",
+			brand="Water Bender",
 			brand_href="/dashboard",
 			color="dark",
 			dark=True,
@@ -37,12 +37,13 @@ class Components:
 			no_gutters=True, style={"margin-top": 20})
 	
 	def __initializePlantCard(self):
-		return [dbc.Card([
+		return dbc.Card([
 			dbc.CardImg(id="card-img", src="", top=True),
-			html.H6("Scientific Name: Epipremnum aureum", style={"font-size": "11px", "text-align": "center"}),
-		], style={"margin-bottom": 20}), self.imgUpload.uploads, self.location_input, 
-		html.P(id="output_da_input"), html.Div(id="render_map")
-		]
+			html.Div(
+				html.H6("Scientific Name: Epipremnum aureum", style={"font-size": "11px", "text-align": "center"}, id="plant-name"),
+			),
+		], style={"margin-bottom": 20})
+		
 
 	def __initializeGrapher(self):
 		return html.Div([
@@ -55,7 +56,7 @@ class Components:
 					])
 
 	#returns a dbc.Tabs element with the id of grapher-tabs
-	def initializeTabsFeatures(self):
+	def TabsFeatures(self):
 		tabs_list = [dbc.Tab(label='temperature', tab_id='temperature-tab'), 
 					dbc.Tab(label='apparentTemperature', tab_id='apparentTemperature-tab'), 
 					dbc.Tab(label='dewPoint', tab_id='dewPoint-tab'), 
@@ -64,5 +65,11 @@ class Components:
 					dbc.Tab(label='windSpeed', tab_id='windSpeed-tab'), 
 					dbc.Tab(label='ozone', tab_id='ozone-tab')]
 		return dbc.Tabs(tabs_list, id="grapher-tabs", active_tab="temperature-tab", style={"text-align": "center"})
+
+	def graph_output(self, address):
+		return [html.H6(address, style={"text-align": "center", "text-decoration":"underline"}),
+					self.water_control,
+						html.Div(id="tabs-features", children=self.TabsFeatures(), style={"text-align":"center"}),
+						self.graph]
 
 
