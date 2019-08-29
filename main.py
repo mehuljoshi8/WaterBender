@@ -13,6 +13,8 @@ import dash_html_components as html
 from geolocationmanager import GeolocationManager
 from weathermanager import WeatherManager
 from components import Components
+from pi import Pi_Control
+from plantdatahandler import Recognizer
 #Ending imports
 
 #starting varibles
@@ -22,14 +24,16 @@ app = dash.Dash(
 	server=server,
 	external_stylesheets=[dbc.themes.BOOTSTRAP],
 	routes_pathname_prefix="/dashboard/",
-	suppress_callback_exceptions=True
+	suppress_callback_exceptions=True,
 )
 
 comp = Components()
+# pi = Pi_Control()
 data = {'time':[], 'temperature':[]}
 latLng = {}
 prev_data = {}
 default_plant_img = "https://ichef.bbci.co.uk/news/976/cpsprodpb/10ECF/production/_107772396_treesmall.jpg"
+water_button_counter = 0
 #ending variables
 
 #basic layout for the dash app dashboard
@@ -90,8 +94,8 @@ def update_map_img(_, address):
 		geolocation_dict = eval(geoman.__str__())
 		latLng['lat'], latLng['lng'] = geolocation_dict['lat'], geolocation_dict['lng']
 		return html.Img(src=geolocation_dict['img_url'], style={"width": "100%"}), [
-							html.H6(address, style={"text-align": "center", "text-decoration":"underline"}), 
-							html.Div(id="tabs-features", children=comp.initializeTabsFeatures()),comp.graph]
+							html.H6(address, style={"text-align": "center", "text-decoration":"underline"}), comp.water_control,
+							html.Div(id="tabs-features", children=comp.initializeTabsFeatures(), style={"text-align":"center"}),comp.graph]
 	else:
 		return "Please enter a valid address", html.Div()
 
@@ -126,7 +130,17 @@ def getLayout(var):
 
 @app.callback(Output('card-img', 'src'), [Input('upload-image', 'contents')])
 def updateImg(contents):
-	return default_plant_img if contents == None else contents
+	if contents == None or not contents[0][0:10] == "data:image": 
+		return default_plant_img
+
+	plantRecognizer = Recognizer(contents)
+	request_id = plantRecognizer.send_for_identification()
+	print(request_id)
+	suggestions = plantRecognizer.get_suggestions(request_id)
+	print(suggestions)
+	for suggestion in suggestions:
+		print(suggestion['plant']['name'], suggestion['id'], suggestion['probability'], suggestion['confidence'])
+	return contents
 
 #alter this code once you get the pi back working
 @app.callback(Output("water_cont", "children"), [Input('pi', "n_clicks")])
@@ -141,7 +155,6 @@ def turnWaterOn(_):
 	#Code to turn the water counter on with the soleniod config
 	pi.on()
 	return dbc.Button("Water Off", color="danger", className="mr-1", id="pi")
-
 #alteration for pi code ends here
 
 
