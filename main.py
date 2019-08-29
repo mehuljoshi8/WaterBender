@@ -29,11 +29,12 @@ app = dash.Dash(
 
 comp = Components()
 # pi = Pi_Control()
-data = {'time':[], 'temperature':[]}
+data = {}
 latLng = {}
 prev_data = {}
 default_plant_img = "https://ichef.bbci.co.uk/news/976/cpsprodpb/10ECF/production/_107772396_treesmall.jpg"
 water_button_counter = 0
+
 #ending variables
 
 #basic layout for the dash app dashboard
@@ -45,11 +46,14 @@ app.layout = html.Div([
 		interval = 1000,
 		n_intervals = 0
 	),
-
 	dbc.Row(
 		[dbc.Col(
 			html.Div(
-				comp.plantCard,
+				[comp.plantCard,
+				comp.imgUpload.uploads,
+				comp.location_input, 
+				html.P(id="output_da_input"),
+				html.Div(id="render_map")]
 			),
 			width=3,
 			style={"padding-top": "10px"},
@@ -93,9 +97,7 @@ def update_map_img(_, address):
 		geolocation_str = geoman.__str__()
 		geolocation_dict = eval(geoman.__str__())
 		latLng['lat'], latLng['lng'] = geolocation_dict['lat'], geolocation_dict['lng']
-		return html.Img(src=geolocation_dict['img_url'], style={"width": "100%"}), [
-							html.H6(address, style={"text-align": "center", "text-decoration":"underline"}), comp.water_control,
-							html.Div(id="tabs-features", children=comp.initializeTabsFeatures(), style={"text-align":"center"}),comp.graph]
+		return html.Img(src=geolocation_dict['img_url'], style={"width": "100%"}), comp.graph_output(address)
 	else:
 		return "Please enter a valid address", html.Div()
 
@@ -134,7 +136,7 @@ def updateImg(contents):
 		return default_plant_img
 
 	plantRecognizer = Recognizer(contents)
-	request_id = plantRecognizer.send_for_identification()
+	request_id = plantRecognizer.identify()
 	print(request_id)
 	suggestions = plantRecognizer.get_suggestions(request_id)
 	print(suggestions)
@@ -144,7 +146,7 @@ def updateImg(contents):
 
 #alter this code once you get the pi back working
 @app.callback(Output("water_cont", "children"), [Input('pi', "n_clicks")])
-def turnWaterOn(_):
+def toggleWater(_):
 	global water_button_counter
 	if water_button_counter % 2 == 0:
 		water_button_counter += 1
@@ -160,8 +162,3 @@ def turnWaterOn(_):
 
 if __name__ == "__main__":
 	app.run_server(debug=False)
-
-
-
-
-
