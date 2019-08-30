@@ -5,6 +5,7 @@
 import flask
 from dash.dependencies import Input, Output, State
 from dashapp import DashApp
+import art
 #Ending imports
 dashapp = DashApp()
 
@@ -34,7 +35,11 @@ def update_map_img(_, address):
 def updateGraph(n, active_tab):
 	return dashapp.updateGraph(n, active_tab)
 
-
+@dashapp.app.callback(Output("random_div", "children"), [Input("live_graph_interval", "interval")])
+def updateData(n):
+	art.tprint("Updating data","rnd-xlarge")
+	dashapp.updateData(n)
+	return ""
 #plant recognition
 @dashapp.app.callback(Output('card-img', 'src'), [Input('upload-image', 'contents')])
 def updateImg(contents):
@@ -43,7 +48,8 @@ def updateImg(contents):
 #alter this code once you get the pi back working
 @dashapp.app.callback(Output("water_cont", "children"), [Input('pi', "n_clicks")])
 def toggleWater(_):
-	return dashapp.toggleWater(_)
+	# return dashapp.toggleWater(_)
+	return "hello"
 #alteration for pi code ends here
 
 

@@ -70,6 +70,6 @@ class Components:
 		return [html.H6(address, style={"text-align": "center", "text-decoration":"underline"}),
 					self.water_control,
 						html.Div(id="tabs-features", children=self.TabsFeatures(), style={"text-align":"center"}),
-						self.graph]
+						self.graph, html.Div(id="random_div")]
 
 

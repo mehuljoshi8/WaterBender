@@ -1,6 +1,5 @@
 #Creator: Mehul Joshi
 #This is a version of main.py that is more object oriented so that it performs better
-#also this
 #Starting Imports
 import flask
 import dash
@@ -14,6 +13,7 @@ from weathermanager import WeatherManager
 from components import Components
 from pi import Pi_Control
 from plantdatahandler import Recognizer
+import time
 #Ending imports
 
 class DashApp:
@@ -27,7 +27,7 @@ class DashApp:
 			suppress_callback_exceptions=True,
 		)
 		self.comp = Components()
-	# self.pi = Pi_Control()
+		# self.pi = Pi_Control()
 		self.data = {}
 		self.latLng = {}
 		self.prev_data = {}
@@ -57,7 +57,7 @@ class DashApp:
 					style={"padding-top": "10px"},
 				),
 				dbc.Col(id="grapher", width=9)
-			])
+			]),
 		])
 		#end of layout
 
@@ -96,12 +96,9 @@ class DashApp:
 		print(n)
 		active_tab= active_tab.split("-")[0]
 		lat, lng = self.latLng['lat'], self.latLng['lng']
-		weatherman = WeatherManager(lat, lng)
-		weatherman_data = eval(weatherman.__str__())
-		self.data = weatherman_data['data']
 		print(self.data)
-		self.prev_data = {'lat': weatherman_data['lat'], 'lng': weatherman_data['lng']}
 		fig = go.Figure(layout=self.__getLayout(active_tab))
+		time.sleep(1)
 		fig.add_trace(go.Scatter(x=self.data['time'], y=self.data[active_tab], fill='tozeroy', name="Temperature"))
 		return fig
 	#Helper funtion that gets the layout for the graph
@@ -114,6 +111,11 @@ class DashApp:
 				title= var
 			)
 		)
+
+	def updateData(self, n):
+		weatherman = WeatherManager(self.latLng['lat'], self.latLng['lng'])
+		weatherman_data = eval(weatherman.__str__())
+		self.data = weatherman_data['data']
 
 	#Uses cutting edge computer vision research to classify plants and give suggestions based on a picture of that plant
 	def updateImg(self, contents):
