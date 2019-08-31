@@ -128,7 +128,12 @@ class DashApp:
 		suggestions = plantRecognizer.get_suggestions(request_id)
 		print(suggestions)
 		for suggestion in suggestions:
+			plant_name = suggestion['plant']['name']
 			print(suggestion['plant']['name'], suggestion['id'], suggestion['probability'], suggestion['confidence'])
+			plant_data = plantRecognizer.get_plant_data(plant_name)
+			print(plant_data[0]['common_name'])
+			
+
 		return contents
 
 	#alter this code once you get the pi back working

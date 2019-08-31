@@ -1,17 +1,19 @@
-import base64
+#Creator: Mehul Joshi
 import requests
 from time import sleep
+from shamrock import Shamrock
 
 
 class Recognizer:
 	def __init__(self, img_url):
 		self.__img_url = img_url
-		self.__secret_key = "Get your key at plant.id"
+		self.__secret_key = "7AV6KXYQSsIFRpA3pIDShtcINAWsFsFLdmnbPSkbYZm2nwoaw1"
 		self.__headers = {
 			'Content-Type': 'application/json'
 		}
+		self.__shamrock_api = api = Shamrock("RXVXQmt0bUZsYXRFaWlZMXNVL2tGZz09")
 
-	def send_for_identification(self):
+	def identify(self):
 		print("Sending the image for identification")
 		params = {
 			'latitude': 49.194161,
@@ -50,9 +52,33 @@ class Recognizer:
 		headers = {
 			"Content-Type": "application/text"
 		}
-		res = requests.post("https://plant.id/api/confirm", json=params, headers=headers)
+		res = requests.post("https://plant.id/api/confirm/{}".format(suggestion_id), json=params, headers=headers)
 		print(res)
 
+	def reject_suggestion(self, suggestion_id):
+		print("Unconfirming suggesion...")
+		params = {
+			"key": self.__secret_key,
+		}
+		headers = {
+			"Content-Type": "application/text",
+		}
+
+		res = requests.post("https://plant.id/api/unconfirm/{}".format(suggestion_id), json=params, headers=headers)
+		print(res)
+
+	def get_usage_info(self):
+		params = {
+			"key": self.__secret_key
+		}
+		response = requests.post('https://api.plant.id/usage_info', json=params, headers=self.__headers)
+		print(response.status_code)
+		return response.json()
+
+
+
+	def get_plant_data(self, name):
+		return self.__shamrock_api.species(scientific_name=name)
 		
 
 
