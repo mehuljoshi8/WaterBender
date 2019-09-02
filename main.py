@@ -34,7 +34,7 @@ def update_map_img(_, address):
 )
 def updateGraph(n, active_tab):
 	return dashapp.updateGraph(n, active_tab)
-
+#callback to update the data for weatherman
 @dashapp.app.callback(Output("random_div", "children"), [Input("live_graph_interval", "interval")])
 def updateData(n):
 	art.tprint("Updating data","rnd-xlarge")
@@ -43,6 +43,7 @@ def updateData(n):
 #plant recognition
 @dashapp.app.callback(Output('card-img', 'src'), [Input('upload-image', 'contents')])
 def updateImg(contents):
+	art.tprint("Updating Image","xlarge")
 	return dashapp.updateImg(contents)
 
 #alter this code once you get the pi back working

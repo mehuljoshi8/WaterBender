@@ -40,7 +40,7 @@ class Components:
 		return dbc.Card([
 			dbc.CardImg(id="card-img", src="", top=True),
 			html.Div(
-				html.H6("Scientific Name: Epipremnum aureum", style={"font-size": "11px", "text-align": "center"}, id="plant-name"),
+				html.H6("Placeholder Image", style={"font-size": "11px", "text-align": "center"}, id="plant-name"), id="plant_data"
 			),
 		], style={"margin-bottom": 20})
 		

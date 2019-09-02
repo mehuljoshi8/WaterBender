@@ -2,6 +2,7 @@
 import requests
 from time import sleep
 from shamrock import Shamrock
+import base64
 
 
 class Recognizer:
@@ -15,6 +16,7 @@ class Recognizer:
 
 	def identify(self):
 		print("Sending the image for identification")
+		print(self.__img_url)
 		params = {
 			'latitude': 49.194161,
 			'longitude': 16.603017,
