@@ -14,6 +14,8 @@ from components import Components
 from pi import Pi_Control
 from plantdatahandler import Recognizer
 import time
+import pandas as pd
+import plotly.express as px
 #Ending imports
 
 class DashApp:
@@ -97,9 +99,10 @@ class DashApp:
 		active_tab= active_tab.split("-")[0]
 		lat, lng = self.latLng['lat'], self.latLng['lng']
 		print(self.data)
-		fig = go.Figure(layout=self.__getLayout(active_tab))
 		time.sleep(1)
-		fig.add_trace(go.Scatter(x=self.data['time'], y=self.data[active_tab], fill='tozeroy', name="Temperature"))
+		df = pd.DataFrame.from_dict(self.data, orient="index")
+		df = df.transpose()
+		fig = px.area(df, x='time', y=active_tab, template="plotly_white")
 		return fig
 	#Helper funtion that gets the layout for the graph
 	def __getLayout(self, var):
@@ -119,9 +122,10 @@ class DashApp:
 
 	#Uses cutting edge computer vision research to classify plants and give suggestions based on a picture of that plant
 	def updateImg(self, contents):
-		if contents == None or not contents[0][0:10] == "data:image": 
+		print("in update image")
+		print(contents)
+		if contents == None or not contents[0:10] == "data:image":
 			return self.default_plant_img
-
 		plantRecognizer = Recognizer(contents)
 		request_id = plantRecognizer.identify()
 		print(request_id)
@@ -130,10 +134,7 @@ class DashApp:
 		for suggestion in suggestions:
 			plant_name = suggestion['plant']['name']
 			print(suggestion['plant']['name'], suggestion['id'], suggestion['probability'], suggestion['confidence'])
-			plant_data = plantRecognizer.get_plant_data(plant_name)
-			print(plant_data[0]['common_name'])
 			
-
 		return contents
 
 	#alter this code once you get the pi back working
