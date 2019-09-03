@@ -118,9 +118,9 @@ class DashApp:
 			card = self.comp.initializePlantCard(self.default_plant_img, [])
 			print(card)
 			return card
-		plantRecognizer = Recognizer(contents)
-		request_id = plantRecognizer.identify()
-		suggestions = plantRecognizer.get_suggestions(request_id)
+		self.plantRecognizer = Recognizer(contents)
+		request_id = self.plantRecognizer.identify()
+		suggestions = self.plantRecognizer.get_suggestions(request_id)
 		suggestions = [elem for elem in suggestions if not elem['plant']['common_name'] == ""]
 		print(suggestions)
 		self.suggestions = suggestions
@@ -131,6 +131,15 @@ class DashApp:
 						dbc.Button("Reject", id="reject", color="danger", className="mr-1", style={"width": "30%"}),], style={"text-align": "center"}
 				))
 
+	def confirmSuggestion(self):
+		print(self.suggestions[0]['id'])
+		self.plantRecognizer.confirm_suggestion(self.suggestions[0]['id'])
+		print("Thank you for confirming my suggestion")
+		return html.H6(self.suggestions[0]['plant']['common_name'], id="plant_name", style={"text-align": "center", "font-size": 13})
+
+	def rejectSuggestion(self):
+		print(self.suggestions[0]['id'])
+		print("Ok we are rejecting the suggestion")
 
 	#alter this code once you get the pi back working
 	def toggleWater(self, _):
