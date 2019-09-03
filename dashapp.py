@@ -131,6 +131,7 @@ class DashApp:
 						dbc.Button("Reject", id="reject", color="danger", className="mr-1", style={"width": "30%"}),], style={"text-align": "center"}
 				))
 
+	#Confirms the suggestion and returns the name of the plant
 	def confirmSuggestion(self):
 		print(self.suggestions[0]['id'])
 		self.plantRecognizer.confirm_suggestion(self.suggestions[0]['id'])
@@ -147,8 +148,11 @@ class DashApp:
 			return html.Div([html.H6(self.suggestions[0]['plant']['common_name'], id="plant_name", style={"text-align": "center", "font-size": "13px"}),
 						dbc.Button("Confirm", id="confirm", color="success", className="mr-1", style={"width": "30%"}),
 						dbc.Button("Reject", id="reject", color="danger", className="mr-1", style={"width": "30%"}),], style={"text-align": "center"})
-		
-
+		if len(self.suggestions) == 1:
+			self.suggestions.pop(0)
+			print("Suggestions length == 1", self.suggestions)
+			#return a div with an input field and a button to submit the plant name
+			return "Ran out of suggestions... feature comming soon"
 	#alter this code once you get the pi back working
 	def toggleWater(self, _):
 		if self.water_button_counter % 2 == 0:
