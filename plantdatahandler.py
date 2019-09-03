@@ -7,16 +7,15 @@ import base64
 
 class Recognizer:
 	def __init__(self, img_url):
-		self.__img_url = img_url
+		self.__img_url = [img_url]
 		self.__secret_key = "KEY"
 		self.__headers = {
 			'Content-Type': 'application/json'
 		}
-		self.__shamrock_api = api = Shamrock("RXVXQmt0bUZsYXRFaWlZMXNVL2tGZz09")
+		
 
 	def identify(self):
 		print("Sending the image for identification")
-		print(self.__img_url)
 		params = {
 			'latitude': 49.194161,
 			'longitude': 16.603017,
@@ -27,8 +26,10 @@ class Recognizer:
 		}
 
 		response = requests.post('https://api.plant.id/identify', json=params, headers=self.__headers)
+		print(response.status_code)
 		if response.status_code != 200:
-		    raise("send_for_identificattion error: {}".format(response.text))
+			print(response.text)
+			raise("send_for_identificattion error: {}".format(response.text))
 
 		return response.json().get('id')
 
@@ -79,8 +80,6 @@ class Recognizer:
 
 
 
-	def get_plant_data(self, name):
-		return self.__shamrock_api.species(scientific_name=name)
 		
 
 
