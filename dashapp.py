@@ -138,8 +138,16 @@ class DashApp:
 		return html.H6(self.suggestions[0]['plant']['common_name'], id="plant_name", style={"text-align": "center", "font-size": 13})
 
 	def rejectSuggestion(self):
-		print(self.suggestions[0]['id'])
 		print("Ok we are rejecting the suggestion")
+		print(self.suggestions[0]['id'])
+		self.plantRecognizer.reject_suggestion(self.suggestions[0]['id'])
+		if len(self.suggestions) > 1:
+			self.suggestions.pop(0)
+			print(self.suggestions)
+			return html.Div([html.H6(self.suggestions[0]['plant']['common_name'], id="plant_name", style={"text-align": "center", "font-size": "13px"}),
+						dbc.Button("Confirm", id="confirm", color="success", className="mr-1", style={"width": "30%"}),
+						dbc.Button("Reject", id="reject", color="danger", className="mr-1", style={"width": "30%"}),], style={"text-align": "center"})
+		
 
 	#alter this code once you get the pi back working
 	def toggleWater(self, _):

@@ -56,6 +56,7 @@ def confirmOrRejectSuggestion(confirm, reject):
 		return dashapp.confirmSuggestion()
 	if not reject == None:
 		print(reject)
+		return dashapp.rejectSuggestion()
 		#pop off the front of the list and if the list is empty make the user enter a value for the plant name
 	return html.Div([html.H6(dashapp.suggestions[0]['plant']['common_name'], id="plant_name", style={"text-align": "center", "font-size": "13px"}),
 						dbc.Button("Confirm", id="confirm", color="success", className="mr-1", style={"width": "30%"}),
