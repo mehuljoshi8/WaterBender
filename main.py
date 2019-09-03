@@ -41,8 +41,7 @@ def updateData(n):
 	dashapp.updateData(n)
 	return ""
 #plant recognition
-# @dashapp.app.callback([Output('card-img', 'src'),Output('plant_data', "children")], [Input('upload-image', 'contents')])
-@dashapp.app.callback(Output('card-img', 'src'), [Input('upload-image', 'contents')])
+@dashapp.app.callback([Output('card-img', 'src'),Output('plant_data', "children")], [Input('upload-image', 'contents')])
 def updateImg(contents):
 	art.tprint("Updating Image","rnd-na")
 	return dashapp.updateImg(contents)

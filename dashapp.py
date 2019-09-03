@@ -104,16 +104,6 @@ class DashApp:
 		df = df.transpose()
 		fig = px.area(df, x='time', y=active_tab, template="plotly_white")
 		return fig
-	#Helper funtion that gets the layout for the graph
-	def __getLayout(self, var):
-		return go.Layout(
-			xaxis=dict(
-				title= 'Time (Hours)'
-			),
-			yaxis=dict(
-				title= var
-			)
-		)
 
 	def updateData(self, n):
 		weatherman = WeatherManager(self.latLng['lat'], self.latLng['lng'])
@@ -123,19 +113,16 @@ class DashApp:
 	#Uses cutting edge computer vision research to classify plants and give suggestions based on a picture of that plant
 	def updateImg(self, contents):
 		print("in update image")
-		print(contents)
 		if contents == None or not contents[0:10] == "data:image":
 			return self.default_plant_img
 		plantRecognizer = Recognizer(contents)
 		request_id = plantRecognizer.identify()
-		print(request_id)
 		suggestions = plantRecognizer.get_suggestions(request_id)
+		suggestions = [elem for elem in suggestions if not elem['plant']['common_name'] == ""]
 		print(suggestions)
-		for suggestion in suggestions:
-			plant_name = suggestion['plant']['name']
-			print(suggestion['plant']['name'], suggestion['id'], suggestion['probability'], suggestion['confidence'])
-			
+		self.suggestions = suggestions
 		return contents
+
 
 	#alter this code once you get the pi back working
 	def toggleWater(self, _):

@@ -39,8 +39,8 @@ class Components:
 	def __initializePlantCard(self):
 		return dbc.Card([
 			dbc.CardImg(id="card-img", src="", top=True),
-			html.Div(
-				html.H6("Placeholder Image", style={"font-size": "11px", "text-align": "center"}, id="plant-name"), id="plant_data"
+			html.Div( 
+				id="plant_data",
 			),
 		], style={"margin-bottom": 20})
 		
