@@ -6,9 +6,10 @@ import flask
 from dash.dependencies import Input, Output, State
 from dashapp import DashApp
 import art
+import dash_html_components as html
 #Ending imports
 dashapp = DashApp()
-
+index = 1
 # #call back for in the input value
 @dashapp.app.callback(Output("output_da_input", "children"), [Input("Input", "value")])
 def output_text(value):
@@ -40,11 +41,24 @@ def updateData(n):
 	art.tprint("Updating data","rnd-xlarge")
 	dashapp.updateData(n)
 	return ""
-#plant recognition
-@dashapp.app.callback([Output('card-img', 'src'),Output('plant_data', "children")], [Input('upload-image', 'contents')])
+#callback for plant recognition
+@dashapp.app.callback(Output("plant_card", "children"), [Input('upload-image', 'contents')])
 def updateImg(contents):
 	art.tprint("Updating Image","rnd-na")
 	return dashapp.updateImg(contents)
+
+#callback for confirming plantcv suggestions
+@dashapp.app.callback(Output("plant_data", "children"), [Input('confirm', 'n_clicks'), Input("reject", "n_clicks")])
+def confirmOrRejectSuggestion(n1, n2):
+	art.tprint("Confirming/Rejecting Suggestion","rnd-na")
+	if n1 > 100:
+		return ""
+	print(n1)
+	print(n2)
+	return html.Div([html.H6(dashapp.suggestions[0]['plant']['common_name'], id="plant_name", style={"text-align": "center", "font-size": "13px"}),
+						dbc.Button("Confirm", id="confirm", color="success", className="mr-1", style={"width": "30%"}),
+						dbc.Button("Reject", id="reject", color="danger", className="mr-1", style={"width": "30%"}),], style={"text-align": "center"}
+				)
 
 #alter this code once you get the pi back working
 @dashapp.app.callback(Output("water_cont", "children"), [Input('pi', "n_clicks")])

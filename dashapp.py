@@ -35,6 +35,7 @@ class DashApp:
 		self.prev_data = {}
 		self.default_plant_img = "https://ichef.bbci.co.uk/news/976/cpsprodpb/10ECF/production/_107772396_treesmall.jpg"
 		self.water_button_counter = 0
+		self.suggestions = None
 		#ending variables
 
 		#basic layout for the dash app dashboard
@@ -114,14 +115,21 @@ class DashApp:
 	def updateImg(self, contents):
 		print("in update image")
 		if contents == None or not contents[0:10] == "data:image":
-			return self.default_plant_img
+			card = self.comp.initializePlantCard(self.default_plant_img, [])
+			print(card)
+			return card
 		plantRecognizer = Recognizer(contents)
 		request_id = plantRecognizer.identify()
 		suggestions = plantRecognizer.get_suggestions(request_id)
 		suggestions = [elem for elem in suggestions if not elem['plant']['common_name'] == ""]
 		print(suggestions)
 		self.suggestions = suggestions
-		return contents
+
+		return self.comp.initializePlantCard(contents, 
+				html.Div([html.H6(suggestions[0]['plant']['common_name'], id="plant_name", style={"text-align": "center", "font-size": "13px"}),
+						dbc.Button("Confirm", id="confirm", color="success", className="mr-1", style={"width": "30%"}),
+						dbc.Button("Reject", id="reject", color="danger", className="mr-1", style={"width": "30%"}),], style={"text-align": "center"}
+				))
 
 
 	#alter this code once you get the pi back working

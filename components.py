@@ -8,7 +8,7 @@ class Components:
 		self.navbar = self.__initializeNavBar()
 		self.location_input = self.__initializeLocationInput()
 		self.imgUpload = ImgUpload()
-		self.plantCard = self.__initializePlantCard()
+		self.plantCard = dbc.Card(self.initializePlantCard("", []), id="plant_card")
 		self.graph = self.__initializeGrapher()
 		self.water_control = html.Div(dbc.Button("Water On", color="primary", className="mr-1", id="pi"), 
 								id="water_cont", style={"text-align": "center", "margin": "5%"}) 
@@ -36,13 +36,12 @@ class Components:
 			)],
 			no_gutters=True, style={"margin-top": 20})
 	
-	def __initializePlantCard(self):
-		return dbc.Card([
-			dbc.CardImg(id="card-img", src="", top=True),
-			html.Div( 
-				id="plant_data",
-			),
-		], style={"margin-bottom": 20})
+	def initializePlantCard(self, contents, children):
+		return [dbc.CardImg(id="card-img", src=contents, top=True),
+				html.Div(
+					children=children,
+					id="plant_data",
+				)]
 		
 
 	def __initializeGrapher(self):
