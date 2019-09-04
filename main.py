@@ -69,7 +69,14 @@ def submitPlantName(submit, name):
 	if not submit == None and isinstance(submit, int):
 		return html.Div(html.H6(name, id="plant_name", style={"text-align": "center", "font-size": "13px"}), style={"text-align": "center"})
 	if submit == None:
-		time.sleep(100)
+		return [dbc.Col(
+			dbc.Input(id="plant_input", placeholder="Plant Name", type="text"),	
+			width=9,
+		),
+		dbc.Col(
+			dbc.Button("Submit",id="submit_plant_name", color="dark", className="mr-1"),
+			width=3,
+		)]
 
 #alter this code once you get the pi back working
 @dashapp.app.callback(Output("water_cont", "children"), [Input('pi', "n_clicks")])
