@@ -59,14 +59,17 @@ def confirmOrRejectSuggestion(confirm, reject):
 	#pop off the front of the list and if the list is empty make the user enter a value for the plant name
 	return html.Div([html.H6(dashapp.suggestions[0]['plant']['common_name'], id="plant_name", style={"text-align": "center", "font-size": "13px"}),
 						dbc.Button("Confirm", id="confirm", color="success", className="mr-1", style={"width": "30%"}),
-						dbc.Button("Reject", id="reject", color="danger", className="mr-1", style={"width": "30%"}),], style={"text-align": "center"}, id="plant_stuff"
+						dbc.Button("Reject", id="reject", color="danger", className="mr-1", style={"width": "30%"}),], 
+						style={"text-align": "center"}, id="plant_stuff"
 				)
 
 @dashapp.app.callback(Output("plant_stuff", "children"), [Input("submit_plant_name", "n_clicks")], 
 		state=[State(component_id="plant_input", component_property="value")])
 def submitPlantName(submit, name):
 	if not submit == None and isinstance(submit, int):
-		return html.H6(name, id="plant_name", style={"text-align": "center", "font-size": "13px"})
+		return html.Div(html.H6(name, id="plant_name", style={"text-align": "center", "font-size": "13px"}), style={"text-align": "center"})
+	if submit == None:
+		time.sleep(100)
 
 #alter this code once you get the pi back working
 @dashapp.app.callback(Output("water_cont", "children"), [Input('pi', "n_clicks")])
