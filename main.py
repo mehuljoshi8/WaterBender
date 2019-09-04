@@ -10,7 +10,6 @@ import dash_html_components as html
 import dash_bootstrap_components as dbc
 #Ending imports
 dashapp = DashApp()
-index = 0
 # #call back for in the input value
 @dashapp.app.callback(Output("output_da_input", "children"), [Input("Input", "value")])
 def output_text(value):
@@ -49,19 +48,25 @@ def updateImg(contents):
 	return dashapp.updateImg(contents)
 
 #callback for confirming plantcv suggestions
-@dashapp.app.callback(Output("plant_data", "children"), [Input('confirm', 'n_clicks'), Input("reject", "n_clicks")])
+@dashapp.app.callback(Output("plant_data", "children"), 
+		[Input('confirm', 'n_clicks'), Input("reject", "n_clicks")])
 def confirmOrRejectSuggestion(confirm, reject):
 	art.tprint("Confirming/Rejecting Suggestion","rnd-na")
-	if not confirm == None:
+	if not confirm == None and isinstance(confirm, int):
 		return dashapp.confirmSuggestion()
-	if not reject == None:
-		print(reject)
+	if not reject == None and isinstance(reject, int):
 		return dashapp.rejectSuggestion()
-		#pop off the front of the list and if the list is empty make the user enter a value for the plant name
+	#pop off the front of the list and if the list is empty make the user enter a value for the plant name
 	return html.Div([html.H6(dashapp.suggestions[0]['plant']['common_name'], id="plant_name", style={"text-align": "center", "font-size": "13px"}),
 						dbc.Button("Confirm", id="confirm", color="success", className="mr-1", style={"width": "30%"}),
-						dbc.Button("Reject", id="reject", color="danger", className="mr-1", style={"width": "30%"}),], style={"text-align": "center"}
+						dbc.Button("Reject", id="reject", color="danger", className="mr-1", style={"width": "30%"}),], style={"text-align": "center"}, id="plant_stuff"
 				)
+
+@dashapp.app.callback(Output("plant_stuff", "children"), [Input("submit_plant_name", "n_clicks")], 
+		state=[State(component_id="plant_input", component_property="value")])
+def submitPlantName(submit, name):
+	if not submit == None and isinstance(submit, int):
+		return html.H6(name, id="plant_name", style={"text-align": "center", "font-size": "13px"})
 
 #alter this code once you get the pi back working
 @dashapp.app.callback(Output("water_cont", "children"), [Input('pi', "n_clicks")])

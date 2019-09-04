@@ -124,7 +124,6 @@ class DashApp:
 		suggestions = [elem for elem in suggestions if not elem['plant']['common_name'] == ""]
 		print(suggestions)
 		self.suggestions = suggestions
-
 		return self.comp.initializePlantCard(contents, 
 				html.Div([html.H6(suggestions[0]['plant']['common_name'], id="plant_name", style={"text-align": "center", "font-size": "13px"}),
 						dbc.Button("Confirm", id="confirm", color="success", className="mr-1", style={"width": "30%"}),
@@ -152,7 +151,15 @@ class DashApp:
 			self.suggestions.pop(0)
 			print("Suggestions length == 1", self.suggestions)
 			#return a div with an input field and a button to submit the plant name
-			return "Ran out of suggestions... feature comming soon"
+			return dbc.Row([
+			dbc.Col(
+				dbc.Input(id="plant_input", placeholder="Plant Name", type="text"),	
+				width=9,
+			),
+			dbc.Col(
+				dbc.Button("Submit",id="submit_plant_name", color="dark", className="mr-1"),
+				width=3,
+			)],no_gutters=True, id="plant_stuff")
 	#alter this code once you get the pi back working
 	def toggleWater(self, _):
 		if self.water_button_counter % 2 == 0:
