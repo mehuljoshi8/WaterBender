@@ -20,12 +20,9 @@ import plotly.express as px
 
 class DashApp:
 	def __init__(self):
-		self.server = flask.Flask(__name__)
 		self.app = dash.Dash(
 			__name__,
-			server=self.server,
 			external_stylesheets=[dbc.themes.BOOTSTRAP],
-			routes_pathname_prefix="/dashboard/",
 			suppress_callback_exceptions=True,
 		)
 		self.comp = Components()
