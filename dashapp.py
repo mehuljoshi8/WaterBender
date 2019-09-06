@@ -1,7 +1,7 @@
 #Creator: Mehul Joshi
 #This is a version of main.py that is more object oriented so that it performs better
 #Starting Imports
-import flask
+from flask import Flask
 import dash
 import dash_bootstrap_components as dbc
 import dash_core_components as dcc
@@ -20,9 +20,12 @@ import plotly.express as px
 
 class DashApp:
 	def __init__(self):
+		self.server = Flask(__name__)
 		self.app = dash.Dash(
 			__name__,
+			server=self.server,
 			external_stylesheets=[dbc.themes.BOOTSTRAP],
+			url_base_pathname="/dashboard/",
 			suppress_callback_exceptions=True,
 		)
 		self.comp = Components()

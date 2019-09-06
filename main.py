@@ -2,7 +2,7 @@
 # This handles the main interaction between the geolocation, latlng encoding, display preferences, and pi manipulation
 
 #Starting Imports
-import flask
+from flask import Flask
 from dash.dependencies import Input, Output, State
 from dashapp import DashApp
 import art
@@ -10,7 +10,14 @@ import dash_html_components as html
 import dash_bootstrap_components as dbc
 #Ending imports
 dashapp = DashApp()
+@dashapp.server.route("/")
+def index():
+	return "hello world"
 
+
+@dashapp.server.route("/dashboard")
+def dashboard():
+	return dashapp.app.index()
 # #call back for in the input value
 @dashapp.app.callback(Output("output_da_input", "children"), [Input("Input", "value")])
 def output_text(value):
