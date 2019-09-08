@@ -14,7 +14,10 @@ Bootstrap(dashapp.server)
 def index():
 	return render_template('index.html')
 
-@dashapp.server.route("/dashboard/")
+@dashapp.server.route("/dashboard")
 def dashboard():
 	return dashapp.app.index()
 
+@dashapp.server.route("/login")
+def login():
+	return render_template("signup.html")
