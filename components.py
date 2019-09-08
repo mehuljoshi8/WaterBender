@@ -3,6 +3,7 @@ import dash_html_components as html
 from imgUpload import ImgUpload
 import dash_core_components as dcc
 
+
 class Components:
 	def __init__(self):
 		self.navbar = self.__initializeNavBar()
@@ -14,15 +15,27 @@ class Components:
 								id="water_cont", style={"text-align": "center", "margin": "5%"}) 
 
 	def __initializeNavBar(self):
-		return dbc.NavbarSimple(
-			[dbc.NavItem(dbc.NavLink("Create Login", href="/dashboard/")),],
-			brand="Water Bender",
-			brand_href="/dashboard",
-			color="dark",
-			dark=True,
-			sticky="top",
-			style={"margin-bottom": "10px"}
+		return dbc.Navbar([
+			dbc.Row([
+				dbc.Col(html.Img(src="https://raw.githubusercontent.com/csmjoshi/WaterBender/master/waterbender.png", height="30px")),
+				dbc.Col(dbc.NavbarBrand("Water Bender", className="ml-2")),
+			], 
+			no_gutters=True,
+			align="center",),
+			
+		],
+		color="dark",
+		dark=True
 		)
+		# return dbc.NavbarSimple(
+		# 	[dbc.NavItem(dbc.NavLink("Create Login", href="/dashboard/")),],
+		# 	brand="Water Bender",
+		# 	brand_href="/dashboard",
+		# 	color="dark",
+		# 	dark=True,
+		# 	sticky="top",
+		# 	style={"margin-bottom": "10px"}
+		# )
 
 	def __initializeLocationInput(self):
 		return dbc.Row([
