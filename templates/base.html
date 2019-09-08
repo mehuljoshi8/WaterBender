@@ -7,6 +7,21 @@
 	     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 	</head>
 	<body>
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+			<a class="navbar-brand" href="">
+				<img height="30px" src="https://raw.githubusercontent.com/csmjoshi/WaterBender/master/waterbender.png">
+				Water Bender
+			</a>
+<!-- 			  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button> -->
+			<div class="collapse navbar-collapse justify-content-end" id="navbarCollapse">
+				<ul class="navbar-nav mr-1">
+					{% block navitems %}
+					{% endblock %}
+				</ul>
+			</div>
+		</nav>
 		{% block content %}
 		{% endblock %}		
 	</body>
