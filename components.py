@@ -27,15 +27,6 @@ class Components:
 		color="dark",
 		dark=True
 		)
-		# return dbc.NavbarSimple(
-		# 	[dbc.NavItem(dbc.NavLink("Create Login", href="/dashboard/")),],
-		# 	brand="Water Bender",
-		# 	brand_href="/dashboard",
-		# 	color="dark",
-		# 	dark=True,
-		# 	sticky="top",
-		# 	style={"margin-bottom": "10px"}
-		# )
 
 	def __initializeLocationInput(self):
 		return dbc.Row([

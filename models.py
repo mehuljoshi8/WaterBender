@@ -13,7 +13,7 @@ class User(db.Model):
 
 class Community(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
-	name = db.Column(db.String(30), nullable=False, default=f"Community {self.id}")
+	name = db.Column(db.String(30), nullable=False, default=f"Community {id}")
 	pi_zero_ip_address = db.Column(db.String(40), nullable=False)
 	#Define a one to many relationship here to the plants
 
@@ -24,6 +24,10 @@ class Plant(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	name = db.Column(db.String(30), nullable=False)
 	img_url = db.Column(db.String(20), nullable=False)
+
+	def __repr__(self):
+		return f"Plant({self.name}','{self.img_url})"
+
 
 
 
