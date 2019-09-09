@@ -129,23 +129,6 @@ iframe {
   -ms-box-shadow: 0 3px 20px 0px rgba(0, 0, 0, 0.1);
 }
 
-
-/*==================================================================
-[ Form ]*/
-
-.login100-form {
-  width: 100%;
-}
-
-.login100-form-title {
-  display: block;
-
-  font-size: 30px;
-  color: #555555;
-  line-height: 1.2;
-  text-align: center;
-}
-
 /*------------------------------------------------------------------
 [ Input ]*/
 
