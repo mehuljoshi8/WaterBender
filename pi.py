@@ -1,8 +1,8 @@
+#9/5/19 For today this is ok
+#But when I get it with the solenoid this is not ok.
 from gpiozero import LED
 from gpiozero.pins.pigpio import PiGPIOFactory
 from time import sleep
-
-
 
 class Pi_Control:
 	def __init__(self):
