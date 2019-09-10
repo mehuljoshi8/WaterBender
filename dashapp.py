@@ -2,6 +2,7 @@
 #This is a version of main.py that is more object oriented so that it performs better
 #Starting Imports
 from flask import Flask
+from flask_login import login_required
 import dash
 import dash_bootstrap_components as dbc
 import dash_core_components as dcc
@@ -20,14 +21,21 @@ import plotly.express as px
 
 class DashApp:
 	def __init__(self):
-		
+		self.server = Flask(__name__)
 		self.app = dash.Dash(
-			__name__,
+			name="dashboard",
+			server=self.server,
 			external_stylesheets=[dbc.themes.BOOTSTRAP],
 			url_base_pathname="/dashboard/",
 			suppress_callback_exceptions=True,
 		)
-		self.server = self.app.server
+
+		for view_func in self.server.view_functions:
+			if view_func.startswith("/dashboard/"):
+				print(view_func)
+				self.server.view_functions[view_func] = login_required(self.server.view_functions[view_func])
+
+
 		self.comp = Components()
 		# self.pi = Pi_Control()
 		self.data = {}
@@ -40,7 +48,7 @@ class DashApp:
 
 		#basic layout for the dash app dashboard
 		self.app.layout = html.Div([
-			self.comp.navbar,
+			# self.comp.navbar,
 			html.P(id="live_time_updates", style={"margin-left": "10px"}),
 			dcc.Interval(
 				id="time_interval",
