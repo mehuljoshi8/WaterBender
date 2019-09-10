@@ -2,22 +2,12 @@
 # I want this file to handle all the flask stuff
 from dashapp import DashApp
 from flask_sqlalchemy import SQLAlchemy
-from flask import render_template
 from flask_bootstrap import Bootstrap
+from flask_login import LoginManager
 
 dashapp = DashApp()
 dashapp.server.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///site.db"
+dashapp.server.config["SECRET_KEY"] = "you-will-never-guess"
 db = SQLAlchemy(dashapp.server)
 Bootstrap(dashapp.server)
-
-@dashapp.server.route("/")
-def index():
-	return render_template('index.html')
-
-@dashapp.server.route("/dashboard")
-def dashboard():
-	return dashapp.app.index()
-
-@dashapp.server.route("/login")
-def login():
-	return render_template("login.html")
+login = LoginManager(dashapp.server)

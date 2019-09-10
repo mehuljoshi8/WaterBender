@@ -24,6 +24,17 @@
 				</ul>
 			</div>
 		</nav>
+		{% with messages = get_flashed_messages() %}
+		{% if messages %}
+		<ul>
+			{% for message in messages %}
+			<div class="alert alert-primary text-center" role="alert">
+				{{message}}
+			</div>
+			{% endfor %}
+		</ul>
+		{% endif %}
+		{% endwith %}
 		{% block content %}
 		{% endblock %}		
 	</body>

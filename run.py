@@ -1,4 +1,5 @@
 from app import dashapp
+import routes
 import callbacks
 
 if __name__ == "__main__":
