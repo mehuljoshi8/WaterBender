@@ -13,12 +13,12 @@ def index():
 		return redirect("/dashboard")
 	return render_template('index.html')
 
-# @dashapp.server.route("/dashboard")
+# @dashapp.server.route("/dashboard", methods=["GET", "POST"])
 # def dashboard():
-# 	if current_user.is_authenticated:
-# 		print(current_user.username)
-# 		return dashapp.app.index()
-# 	return redirect(url_for("index"))
+	# if current_user.is_authenticated:
+	# 	print(current_user.username)
+	# 	return dashapp.app.index()
+	# return redirect(url_for("index"))
 
 
 @dashapp.server.route("/login", methods=["GET", "POST"])

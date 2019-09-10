@@ -16,12 +16,14 @@ class Components:
 
 	def __initializeNavBar(self):
 		return dbc.Navbar([
+			html.A(href="/#", children=[
 			dbc.Row([
-				dbc.Col(html.Img(src="https://raw.githubusercontent.com/csmjoshi/WaterBender/master/waterbender.png", height="30px")),
-				dbc.Col(dbc.NavbarBrand("Water Bender", className="ml-2")),
+				
+					dbc.Col(html.Img(src="https://raw.githubusercontent.com/csmjoshi/WaterBender/master/waterbender.png", height="30px")),
+					dbc.Col(dbc.NavbarBrand("Water Bender", className="ml-2")),
 			], 
 			no_gutters=True,
-			align="center",),
+			align="center",),])
 			
 		],
 		color="dark",

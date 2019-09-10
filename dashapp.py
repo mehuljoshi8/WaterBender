@@ -1,7 +1,7 @@
 #Creator: Mehul Joshi
 #This is a version of main.py that is more object oriented so that it performs better
 #Starting Imports
-from flask import Flask
+from flask import Flask, render_template
 from flask_login import login_required
 import dash
 import dash_bootstrap_components as dbc
@@ -19,6 +19,7 @@ import pandas as pd
 import plotly.express as px
 #Ending imports
 
+
 class DashApp:
 	def __init__(self):
 		self.server = Flask(__name__)
@@ -26,15 +27,15 @@ class DashApp:
 			name="dashboard",
 			server=self.server,
 			external_stylesheets=[dbc.themes.BOOTSTRAP],
-			url_base_pathname="/dashboard/",
+			routes_pathname_prefix="/dashboard/",
 			suppress_callback_exceptions=True,
 		)
 
+		#makes sure that the login is required for data vis
 		for view_func in self.server.view_functions:
 			if view_func.startswith("/dashboard/"):
 				print(view_func)
 				self.server.view_functions[view_func] = login_required(self.server.view_functions[view_func])
-
 
 		self.comp = Components()
 		# self.pi = Pi_Control()
@@ -48,7 +49,7 @@ class DashApp:
 
 		#basic layout for the dash app dashboard
 		self.app.layout = html.Div([
-			# self.comp.navbar,
+			self.comp.navbar,
 			html.P(id="live_time_updates", style={"margin-left": "10px"}),
 			dcc.Interval(
 				id="time_interval",
@@ -180,5 +181,4 @@ class DashApp:
 		self.pi.on()
 		return dbc.Button("Water Off", color="danger", className="mr-1", id="pi")
 	#alteration for pi code ends here
-
 
