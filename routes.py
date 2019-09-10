@@ -7,9 +7,9 @@ from werkzeug.urls import url_parse
 
 @dashapp.server.route("/")
 def index():
-
 	if current_user.is_authenticated:
 		print("Im in index and the current user is:", current_user.username)
+		dashapp.update_layout(current_user)
 		return redirect("/dashboard")
 	return render_template('index.html')
 
@@ -46,3 +46,8 @@ def logout():
 	logout_user()
 	flash("Successfully Logged out...")
 	return redirect(url_for('index'))
+
+
+@dashapp.server.errorhandler(401)
+def invalid_credentials(error):
+	return "You are a stupid ugly m***** f*****!!"

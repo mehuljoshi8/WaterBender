@@ -2,6 +2,7 @@ import dash_bootstrap_components as dbc
 import dash_html_components as html
 from imgUpload import ImgUpload
 import dash_core_components as dcc
+from flask_login import current_user
 
 
 class Components:

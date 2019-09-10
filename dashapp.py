@@ -1,7 +1,7 @@
 #Creator: Mehul Joshi
 #This is a version of main.py that is more object oriented so that it performs better
 #Starting Imports
-from flask import Flask, render_template
+from flask import Flask
 from flask_login import login_required
 import dash
 import dash_bootstrap_components as dbc
@@ -17,6 +17,7 @@ from plantdatahandler import Recognizer
 import time
 import pandas as pd
 import plotly.express as px
+
 #Ending imports
 
 
@@ -181,4 +182,11 @@ class DashApp:
 		self.pi.on()
 		return dbc.Button("Water Off", color="danger", className="mr-1", id="pi")
 	#alteration for pi code ends here
+
+	def update_layout(self, current_user):
+		print("What is up nigga bitch", current_user)
+		self.app.layout = html.Div([
+			html.P("Current User: {}".format(current_user.username)),
+			self.comp.navbar
+		])
 
