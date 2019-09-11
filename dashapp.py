@@ -51,26 +51,6 @@ class DashApp:
 		#basic layout for the dash app dashboard
 		self.app.layout = html.Div([
 			self.comp.navbar,
-			html.P(id="live_time_updates", style={"margin-left": "10px"}),
-			dcc.Interval(
-				id="time_interval",
-				interval = 1000,
-				n_intervals = 0
-			),
-			dbc.Row(
-				[dbc.Col(
-					html.Div(
-						[self.comp.plantCard,
-						self.comp.imgUpload.uploads,
-						self.comp.location_input, 
-						html.P(id="output_da_input"),
-						html.Div(id="render_map")]
-					),
-					width=3,
-					style={"padding-top": "10px"},
-				),
-				dbc.Col(id="grapher", width=9)
-			]),
 		])
 		#end of layout
 
@@ -184,9 +164,74 @@ class DashApp:
 	#alteration for pi code ends here
 
 	def update_layout(self, current_user):
-		print("What is up nigga bitch", current_user)
+		print(current_user.username)		
+		WATER_BENDER_LOGO = "https://raw.githubusercontent.com/csmjoshi/WaterBender/master/waterbender.png"
+		ef = dbc.ButtonGroup(
+			[
+				dbc.DropdownMenu(
+					[dbc.DropdownMenuItem("Add Community", href="/add_community"), dbc.DropdownMenuItem("Add Plant", href="/add_plant")],
+					group=True,
+					right=True,
+					label="+",
+					in_navbar=True,
+					color="primary",
+				),
+				dbc.DropdownMenu(
+					[dbc.DropdownMenuItem("My Profile", href="/my_profile"), dbc.DropdownMenuItem("My Communities", href="/my_communities"), dbc.DropdownMenuItem("My Plants", href="/my_plants"), dbc.DropdownMenuItem("Sign Out", href="/logout")],
+					group=True,
+					right=True,
+					label=current_user.username,
+					in_navbar=True,
+					color="primary"
+				),
+			],
+			className="ml-auto flex-nowrap mt-3 mt-md-0"
+		)
+
+
+		navbar = dbc.Navbar(
+		    [
+		        html.A(
+		            dbc.Row(
+		                [
+		                    dbc.Col(html.Img(src=WATER_BENDER_LOGO, height="30px")),
+		                    dbc.Col(dbc.NavbarBrand("Water Bender", className="ml-2")),
+		                ],
+		                align="center",
+		                no_gutters=True,
+		            ),
+		            href="/#",
+		        ),
+		        ef
+		    ],
+		    color="dark",
+		    dark=True,
+		)
+
 		self.app.layout = html.Div([
-			html.P("Current User: {}".format(current_user.username)),
-			self.comp.navbar
+			navbar,
+			html.P(id="live_time_updates", style={"margin-left": "10px"}),
+			dcc.Interval(
+				id="time_interval",
+				interval = 1000,
+				n_intervals = 0
+			),
+			dbc.Row(
+				[dbc.Col(
+					html.Div(
+						[self.comp.plantCard,
+						self.comp.imgUpload.uploads,
+						self.comp.location_input, 
+						html.P(id="output_da_input"),
+						html.Div(id="render_map")]
+					),
+					width=3,
+					style={"padding-top": "10px"},
+				),
+				dbc.Col(id="grapher", width=9)
+			]),
+
 		])
+
+		
 
