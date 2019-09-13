@@ -1,31 +1,31 @@
 {% extends "base.html" %}
 
-{% block title %}Sign In{% endblock %}
+{% block title %}Sign Up{% endblock %}
 
 {% block externalstylesheets %}
 <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/login/main.css')}}">
 <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/login/util.css')}}">
-{% endblock %}
+ {% endblock %}
 
 {% block navitems %}
 <li class="nav-item active">
-	<a class="nav-link" href="#">Sign In <span class="sr-only">(current)</span></a>
+	<a class="nav-link" href="#">Register<span class="sr-only">(current)</span></a>
 </li>
 <li class="nav-item">
-	<a class="nav-link" href="/register">Register</a>
+	<a class="nav-link" href="/login">Sign In</a>
 </li>
 <li class="nav-item">
 	<a class="nav-link" href="/#">Home</a>
 </li>
 {% endblock %}
 
-{%block content%}
+{% block content %}
 <form action="" method="POST" novalidate>
 	{{ form.hidden_tag() }}
 	<div class="container-login100">
 		<div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-50">
 				<div class="p-b-33" style="text-align: center;">
-					<span style="font-size: 20px; font-weight: bold;">Sign in</span>					
+					<span style="font-size: 20px; font-weight: bold;">Sign Up</span>					
 				</div>
 
 				<div class="wrap-input100">
@@ -35,7 +35,19 @@
 				</div>
 
 				<div class="wrap-input100 rs1">
+					{{ form.email(class_="input100")}}
+					<span class="focus-input100-1"></span>
+					<span class="focus-input100-2"></span>
+				</div>
+				
+				<div class="wrap-input100 rs1">
 					{{ form.password(class_="input100")}}
+					<span class="focus-input100-1"></span>
+					<span class="focus-input100-2"></span>
+				</div>
+
+				<div class="wrap-input100 rs1">
+					{{form.confirm_password(class_="input100")}}
 					<span class="focus-input100-1"></span>
 					<span class="focus-input100-2"></span>
 				</div>
@@ -43,28 +55,14 @@
 				<div class="container-login100-form-btn m-t-20">
 					{{ form.submit(class="login100-form-btn") }}
 				</div>
-				<div class="text-center">
-					{{form.remember_me }}
-					<label for="remember_me">Keep me logged in</label>
-				</div>
-
 				<div class="text-center p-t-10 p-b-4">
-					<span class="txt1">
-						Forgot
-					</span>
-
-					<a href="#" class="txt2 hov1">
-						Username / Password?
-					</a>
-				</div>
-
 				<div class="text-center">
 					<span class="txt1">
-						Need an account
+						Have an account
 					</span>
 
-					<a href="/register" class="txt2 hov1">
-						Sign up
+					<a href="/login" class="txt2 hov1">
+						Sign In
 					</a>
 				</div>
 		</div>

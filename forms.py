@@ -9,3 +9,10 @@ class LoginForm(FlaskForm):
 	submit = SubmitField("Sign In")
 
 
+class RegistrationForm(FlaskForm):
+	username = StringField("Username", validators=[DataRequired()], render_kw={"placeholder": "Username"})
+	email = StringField("Email", validators=[DataRequired()], render_kw={"placeholder": "Email"})
+	password = PasswordField("Password", validators=[DataRequired()], render_kw={"placeholder": "Password"})
+	confirm_password = PasswordField("Confirm Password", validators=[DataRequired()], render_kw={"placeholder": "Confirm Password"})
+	submit = SubmitField("Sign Up")
+
