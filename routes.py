@@ -38,8 +38,6 @@ def logout():
 	flash("Successfully Logged out...")
 	return redirect(url_for('index'))
 
-
-
 @dashapp.server.route("/register", methods=["GET", "POST"])
 def register():
 	if current_user.is_authenticated:
@@ -50,16 +48,14 @@ def register():
 		if not user:
 			user = User.query.filter_by(email=form.email.data).first()
 		if not user:
-			user = User(username=form.username.data, email=form.email.data)
-			user.set_password(form.password.data)
+			user = User(form.username.data,form.email.data, form.password.data)
 			db.session.add(user)
 			db.session.commit()
-			flash('Created a user for' + form.username.data)
-			return redirect(url_for('index'))
+			flash('Created a user for ' + form.username.data)
+			return redirect(url_for('login'))
 		flash("Sorry those credentials are already in the database")	
 		#filter by username and email. If both of return none then create a user in the database
 		#and autologin
-
 	return render_template("register.html", form=form)
 
 

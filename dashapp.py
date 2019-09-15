@@ -17,7 +17,6 @@ from plantdatahandler import Recognizer
 import time
 import pandas as pd
 import plotly.express as px
-
 #Ending imports
 
 
@@ -169,7 +168,7 @@ class DashApp:
 		ef = dbc.ButtonGroup(
 			[
 				dbc.DropdownMenu(
-					[dbc.DropdownMenuItem("Add Community", href="/add_community"), dbc.DropdownMenuItem("Add Plant", href="/add_plant")],
+					[dbc.DropdownMenuItem("Add Community", href="/add_community", external_link=True), dbc.DropdownMenuItem("Add Plant", href="/add_plant", external_link=True)],
 					group=True,
 					right=True,
 					label="+",
@@ -177,7 +176,7 @@ class DashApp:
 					color="primary",
 				),
 				dbc.DropdownMenu(
-					[dbc.DropdownMenuItem("My Profile", href="/my_profile"), dbc.DropdownMenuItem("My Communities", href="/my_communities"), dbc.DropdownMenuItem("My Plants", href="/my_plants"), dbc.DropdownMenuItem("Sign Out", href="/logout")],
+					[dbc.DropdownMenuItem("My Profile", href="/my_profile", external_link=True), dbc.DropdownMenuItem("My Communities", href="/my_communities", external_link=True), dbc.DropdownMenuItem("My Plants", href="/my_plants", external_link=True), dbc.DropdownMenuItem("Sign Out", href="/logout", external_link=True)],
 					group=True,
 					right=True,
 					label=current_user.username,

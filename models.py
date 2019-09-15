@@ -1,6 +1,7 @@
 from app import db, login
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
+import datetime
 
 
 class User(UserMixin, db.Model):
@@ -8,14 +9,25 @@ class User(UserMixin, db.Model):
 	username = db.Column(db.String(20), unique=True, nullable=False)
 	email = db.Column(db.String(120), unique = True, nullable = False)
 	img_url = db.Column(db.String(20), nullable=False, default="default.jpg")
-	password_hash = db.Column(db.String(128), nullable=False)
+	password = db.Column(db.String(128), nullable=False)
+	registered_on = db.Column(db.DateTime(), nullable=True)
+	comfirmed = db.Column(db.Boolean(), nullable=False, default=False)
+	confirmed_on = db.Column(db.DateTime(), nullable=True)
 	communities = db.relationship("Community", backref="user")
 
+	def __init__(self, username, email, password):
+		self.username=username
+		self.email=email
+		self.set_password(password)
+		self.registered_on = datetime.datetime.now()
+		self.confirmed = False
+		self.confirmed_on = None
+
 	def set_password(self, password):
-		self.password_hash = generate_password_hash(password)
+		self.password = generate_password_hash(password)
 
 	def check_password(self, password):
-	 	return check_password_hash(self.password_hash, password)
+	 	return check_password_hash(self.password, password)
 
 	def __repr(self):
 		return f"User({self.username})','{self.email}','{self.img_url}','{self.password}"
