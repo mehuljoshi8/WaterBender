@@ -27,7 +27,7 @@ class DashApp:
 			name="dashboard",
 			server=self.server,
 			external_stylesheets=[dbc.themes.BOOTSTRAP],
-			routes_pathname_prefix="/dashboard/",
+			routes_pathname_prefix="/somethingsomethin/",
 			suppress_callback_exceptions=True,
 		)
 

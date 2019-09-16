@@ -10,7 +10,7 @@ def index():
 	if current_user.is_authenticated:
 		print("Im in index and the current user is:", current_user.username)
 		dashapp.update_layout(current_user)
-		return redirect("/dashboard")
+		return redirect(url_for("dashboard"))
 	return render_template('index.html')
 
 @dashapp.server.route("/login", methods=["GET", "POST"])
@@ -58,6 +58,9 @@ def register():
 		#and autologin
 	return render_template("register.html", form=form)
 
+@dashapp.server.route("/dashboard")
+def dashboard():
+	return render_template("dashboard.html", username=current_user.username)
 
 @dashapp.server.errorhandler(401)
 def invalid_credentials(error):

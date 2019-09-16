@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block navitems %}
+<div role="group" class="ml-auto flex-nowrap mt-3 mt-md-0 btn-group">
+	<div class="btn-group">
+		<button type="button" class="dropdown-toggle btn btn-primary" data-toggle="dropdown">
+			+
+		</button>
+		<div class="dropdown-menu dropdown-menu-right">
+			<a href="/add_community" class="dropdown-item">
+				Add Community
+			</a>
+			<a href="/add_plant" class="dropdown-item">
+				Add Plant
+			</a>
+		</div>
+	</div>
+	<div class="btn-group">
+		<button type="button" class="dropdown-toggle btn btn-primary" data-toggle="dropdown">
+			{{ username }}
+		</button>
+		<div class="dropdown-menu dropdown-menu-right">
+			<a href="/my_profile" class="dropdown-item">
+				My Profile
+			</a>
+			<a href="/my_communities" class="dropdown-item">
+			My Communities
+			</a>
+			<a href="/my_plants" class="dropdown-item">
+				My Plants
+			</a>
+			<a href="/logout" class="dropdown-item">
+			Sign Out
+			</a>
+		</div>
+	</div>
+</div>
+{% endblock %}
