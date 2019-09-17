@@ -33,7 +33,7 @@ class User(UserMixin, db.Model):
 	 	return check_password_hash(self.password, password)
 
 	def __repr(self):
-		return f"User({self.username})','{self.email}','{self.img_url}','{self.password}"
+		return "User(%s)','%s','%s','%s" %(self.username, self.email, self.active)
 
 class Community(db.Model):
 	id = db.Column(db.Integer, primary_key=True)

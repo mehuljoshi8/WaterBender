@@ -8,7 +8,6 @@ from werkzeug.urls import url_parse
 @dashapp.server.route("/")
 def index():
 	if current_user.is_authenticated:
-		print("Im in index and the current user is:", current_user.username)
 		dashapp.update_layout(current_user)
 		return redirect(url_for("dashboard"))
 	return render_template('index.html')
@@ -26,8 +25,10 @@ def login():
 		if not user or not user.check_password(form.password.data):
 			flash('Invalid username or password')
 			return redirect(url_for('login'))
-		print(form.remember_me.data)
+
 		login_user(user, remember=form.remember_me.data)
+		current_user.active = True
+		db.session.commit()
 		flash("Successfully logined in for " + current_user.username)
 		return redirect(url_for("index"))
 	return render_template("login.html", form=form)
@@ -35,6 +36,7 @@ def login():
 @dashapp.server.route("/logout")
 def logout():
 	current_user.active = False
+	db.session.commit()
 	logout_user()
 	flash("Successfully Logged out...")
 	return redirect(url_for('index'))
