@@ -28,12 +28,13 @@ def login():
 			return redirect(url_for('login'))
 		print(form.remember_me.data)
 		login_user(user, remember=form.remember_me.data)
-		flash("Login requested")
+		flash("Successfully logined in for " + current_user.username)
 		return redirect(url_for("index"))
 	return render_template("login.html", form=form)
 
 @dashapp.server.route("/logout")
 def logout():
+	current_user.active = False
 	logout_user()
 	flash("Successfully Logged out...")
 	return redirect(url_for('index'))
@@ -60,7 +61,10 @@ def register():
 
 @dashapp.server.route("/dashboard")
 def dashboard():
-	return render_template("dashboard.html", username=current_user.username)
+	if current_user.is_authenticated:
+		return render_template("dashboard.html", username=current_user.username)
+	flash("Please login to view your custom dashboard")
+	return redirect(url_for("index"))
 
 @dashapp.server.errorhandler(401)
 def invalid_credentials(error):

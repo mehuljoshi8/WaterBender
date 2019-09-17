@@ -15,6 +15,8 @@ class User(UserMixin, db.Model):
 	confirmed_on = db.Column(db.DateTime(), nullable=True)
 	communities = db.relationship("Community", backref="user")
 
+	active = db.Column(db.Boolean(), nullable=False, default=True)
+
 	def __init__(self, username, email, password):
 		self.username=username
 		self.email=email
@@ -22,6 +24,7 @@ class User(UserMixin, db.Model):
 		self.registered_on = datetime.datetime.now()
 		self.confirmed = False
 		self.confirmed_on = None
+		self.active = True
 
 	def set_password(self, password):
 		self.password = generate_password_hash(password)
