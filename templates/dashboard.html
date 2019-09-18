@@ -9,10 +9,10 @@
 			+
 		</button>
 		<div class="dropdown-menu dropdown-menu-right">
-			<a href="/dashboard/add_community" class="dropdown-item">
+			<a href="/dashboard/add-community" class="dropdown-item">
 				Add Community
 			</a>
-			<a href="/dashboard/add_plant" class="dropdown-item">
+			<a href="/dashboard/add-plant" class="dropdown-item">
 				Add Plant
 			</a>
 		</div>
@@ -22,13 +22,13 @@
 			{{ username }}
 		</button>
 		<div class="dropdown-menu dropdown-menu-right">
-			<a href="/dashboard/my_profile" class="dropdown-item">
+			<a href="/dashboard/my-profile" class="dropdown-item">
 				My Profile
 			</a>
-			<a href="/dashboard/my_communities" class="dropdown-item">
+			<a href="/dashboard/my-communities" class="dropdown-item">
 			My Communities
 			</a>
-			<a href="/dashboard/my_plants" class="dropdown-item">
+			<a href="/dashboard/my-plants" class="dropdown-item">
 				My Plants
 			</a>
 			<a href="/logout" class="dropdown-item">
@@ -41,5 +41,8 @@
 
 
 {% block content %}
+
+<a href="/dashboard/add-community" class="badge badge-primary">Add Community</a>
+<a href="/dashboard/add-plant" class="badge badge-primary">Add Plant</a>
 
 {% endblock %}

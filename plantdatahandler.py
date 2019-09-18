@@ -1,19 +1,18 @@
 #Creator: Mehul Joshi
+#This file is fine as it stands no mods needed other than getting away from plant.id
 import requests
 from time import sleep
-from shamrock import Shamrock
 import base64
 
 
 class Recognizer:
 	def __init__(self, img_url):
 		self.__img_url = [img_url]
-		self.__secret_key = "KEY"
+		self.__secret_key = "7AV6KXYQSsIFRpA3pIDShtcINAWsFsFLdmnbPSkbYZm2nwoaw1"
 		self.__headers = {
 			'Content-Type': 'application/json'
 		}
 		
-
 	def identify(self):
 		print("Sending the image for identification")
 		params = {
@@ -43,6 +42,7 @@ class Recognizer:
 		while True:
 			res = requests.post('https://plant.id/api/check_identifications', json=params, headers=self.__headers).json()
 			if res[0]["suggestions"]:
+				self.suggestions = res[0]['suggestions']
 				return res[0]["suggestions"]
 
 
