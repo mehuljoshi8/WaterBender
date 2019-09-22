@@ -8,7 +8,7 @@ import base64
 class Recognizer:
 	def __init__(self, img_url):
 		self.__img_url = [img_url]
-		self.__secret_key = "7AV6KXYQSsIFRpA3pIDShtcINAWsFsFLdmnbPSkbYZm2nwoaw1"
+		self.__secret_key = "key"
 		self.__headers = {
 			'Content-Type': 'application/json'
 		}
